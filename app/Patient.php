@@ -19,14 +19,23 @@ class Patient extends Model
         'observation'
     ];
 
+    public function getPati($id)
+    {
+        return DB::table('patient')->where('id', '=', $id)->get();
+    }
+
     public function register($res)
     {
         return $this->create($res->all());
     }
 
-    public function search()
+    public function search($cond = null)
     {
-        return DB::table('patient')->orderBy('name', 'asc')->get();
+        if($cond) {
+            return DB::table('patient')->where([['name', 'like', '%' . $cond . '%']])->orderBy('name', 'asc')->get();
+        } else {
+            return DB::table('patient')->orderBy('name', 'asc')->get();
+        }
     }
 
     public function del($id)
@@ -39,10 +48,10 @@ class Patient extends Model
         DB::table('patient')->where('id', '=', $id)->update(
             [
                 'name' => $res->name,
-                'matriculation' => $res->matriculation,
-                'salary' => $res->salary,
-                'office' => $res->office,
-                'bonification' => $res->bonification
+                'address' => $res->address,
+                'telephone' => $res->telephone,
+                'date' => $res->date,
+                'observation' => $res->observation
             ]
         );
     }

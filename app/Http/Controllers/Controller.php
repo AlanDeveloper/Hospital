@@ -23,6 +23,11 @@ class Controller extends BaseController
         $this->patient = new Patient();
         $this->functionary = new Functionary();
     }
+
+    public function index(Request $request) {
+        return view('template.home', ['user' => $request->session()->get('data')[0]]);
+    }
+
     public function login(Request $request) {
 
         $u = $this->user->search();
@@ -37,10 +42,11 @@ class Controller extends BaseController
         return redirect('/');
     }
 
-    public function binds(Request $request)
+    public function binds(Request $request, $id)
     {
-        $result = $this->patient->search();
-        return view('template.binds', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
+        $result = $this->patient->getPati($id);
+        $result2 = $this->functionary->search();
+        return view('template.binds', ['list' => $result, 'list2' => $result2, 'user' => $request->session()->get('data')[0]]);
     }
 
 }

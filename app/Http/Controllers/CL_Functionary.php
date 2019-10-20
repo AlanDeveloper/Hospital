@@ -22,38 +22,12 @@ class CL_Functionary extends Controller {
     public function register(Request $request) {
 
         if ($request->isMethod('post')) {
-            $func = $this->func->register($request);
+            $this->func->register($request);
             
             return redirect('functionary/list');
         } else {
             return view('functionary.create', ['user' => $request->session()->get('data')[0]]);  
         }
-    }
-
-    public function salary($id) {
-        $request = $this->func->getFunc($id);
-        
-        $salary = $request[0]->salary;
-        $inss = $salary*0.11;
-        $irrf =  $salary*0.16;
-        $liquidsalary  = $salary - $salary*0.11 -  $salary*0.16 + 200;
-        if($request[0]->office == "Gerente" && $request[0]->bonification == "1" ){
-            $liquidsalary =  $liquidsalary*0.15 + $liquidsalary ;
-        }
-
-        if($request[0]->office == "Diretor" && $request[0]->bonification == "1" ){
-            $liquidsalary =  $liquidsalary*0.10 +  $liquidsalary ;
-        }
-
-        if($request[0]->office == "Engenheiro" && $request[0]->bonification == "1" ){
-            $liquidsalary =  $liquidsalary*0.20 + $liquidsalary ;
-        }
-        return view('functionary.salary', [
-            'liquidsalary' => $liquidsalary,
-            'salary' => $salary,
-            'inss' => $inss,
-            'irrf' => $irrf, 'user' => $request->session()->get('data')[0]
-        ]); 
     }
 
     public function list(Request $request) {
@@ -62,13 +36,12 @@ class CL_Functionary extends Controller {
     }
     
     public function search(Request $request) {
-        $condition = [
-            'text' => $request->inputSearch,
-            'office' => $request->officeSearch,
-            'order' => $request->orderSearch
-        ];
-        $result = $this->func->search($condition);
-        return view('functionary.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
+        if ($request->isMethod('post')) {
+            $result = $this->func->search($request->name);
+            return view('functionary.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
+        } else {
+            return redirect('functionary/list');
+        }
     }
 
     public function del($id) {
