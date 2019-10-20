@@ -3,10 +3,10 @@
 @section('content')
 <button type="button" class="btn btn-outline-primary"><a href="/patient/list">Voltar</a></button>
 <br><br>
-<form action="" class="form-inline" method="post">
+@foreach ($list as $item)
+<form action="/binds/{{ $item->id }}" class="form-inline" method="post">
     {{ csrf_field() }}
     <div class="form-group mb-2">
-        @foreach ($list as $item)
         <input type="text" class="form-control" value="{{ $item->name }}" disabled>
         @endforeach
         <select name="m" class="form-control">

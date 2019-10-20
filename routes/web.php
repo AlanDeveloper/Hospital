@@ -14,6 +14,7 @@ Route::get('/',  "Controller@index");
 Route::get('/login', "Controller@login");
 Route::get('/exit', "Controller@exit");
 Route::get('/binds/{id}', "Controller@binds");
+Route::post('/binds/{id}', "Controller@binds");
 
 Route::group(["prefix" => "functionary"], function () {
     Route::get('/', function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Patient;
 use App\Functionary;
+use App\FuncPati;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -22,6 +23,7 @@ class Controller extends BaseController
         $this->user = new User();
         $this->patient = new Patient();
         $this->functionary = new Functionary();
+        $this->fp = new FuncPati();
     }
 
     public function index(Request $request) {
@@ -44,9 +46,26 @@ class Controller extends BaseController
 
     public function binds(Request $request, $id)
     {
-        $result = $this->patient->getPati($id);
-        $result2 = $this->functionary->search();
-        return view('template.binds', ['list' => $result, 'list2' => $result2, 'user' => $request->session()->get('data')[0]]);
+        if ($request->isMethod('post')) {
+            if($request->m === $request->e) {
+                $this->fp->register($id, $request->m);
+            } else if($request->m != -1 && $request->e != -1) {
+                $this->fp->register($id, $request->m);
+                $this->fp->register($id, $request->e);
+            } else {
+                if($request->m != -1) {
+                    $this->fp->register($id, $request->m);
+                } else {
+                    $this->fp->register($id, $request->e);
+                }
+            }
+
+            return redirect('patient/list');
+        } else {
+            $result = $this->patient->getPati($id);
+            $result2 = $this->functionary->search();
+            return view('template.binds', ['list' => $result, 'list2' => $result2, 'user' => $request->session()->get('data')[0]]);
+        }
     }
 
 }
