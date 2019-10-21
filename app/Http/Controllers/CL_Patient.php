@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
+// use DateTime
 use Illuminate\Http\Request;
 
 class CL_Patient extends Controller {
@@ -38,7 +39,11 @@ class CL_Patient extends Controller {
 
     public function search(Request $request) {
         if($request->isMethod('post')) {
-            $result = $this->patient->search($request->name);
+            if (isset($request->name)) {
+                $result = $this->patient->search($request->name);
+            } else {
+                $result = $this->patient->getPati($request->code);
+            }
             return view('patient.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
         } else {
             return redirect('patient/list');

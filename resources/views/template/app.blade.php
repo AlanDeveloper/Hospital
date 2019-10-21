@@ -35,13 +35,16 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    @if ($user)
-                    <li><a href="{{ url('functionary/list') }}">Lista de Funcionários</a></li>
-                    <li><a href="{{ url('patient/list') }}">Lista de Pacientes</a></li>
-                    <li><a href="#"> Olá {{$user}}</a></li>
-                    <li><a href="/exit">Sair</a></li>
+                    @if (isset($user->admin))
+                        @if ($user->admin)
+                        <li><a href="{{ url('functionary/list') }}">Lista de Funcionários</a></li>
+                        <li><a href="{{ url('patient/list') }}">Lista de Pacientes</a></li>
+                        @endif
+                        <li><a href="#"> Olá {{$user->name}}</a></li>
+                        <li><a href="/exit">Sair</a></li>
                     @else
                     <li><a href="{{ url('login') }}">Entrar como administrador</a></li>
+                    <li><a href="{{ url('loginMedic') }}">Entrar como médico</a></li>
                     @endif
                 </ul>
             </div>

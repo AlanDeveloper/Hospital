@@ -27,14 +27,33 @@ class Controller extends BaseController
     }
 
     public function index(Request $request) {
-        return view('template.home', ['user' => $request->session()->get('data')[0]]);
+        $vet = null;
+        if(isset($request->session()->get('data')[0])) {
+            if($request->session()->get('data')[0]->admin == false) {
+                $vet = [];
+                $result = $this->fp->search($request->session()->get('data')[0]->id);
+                foreach($result as $patient) {
+                    array_push($vet, $this->patient->search($patient->id));
+                }
+            }
+        }
+        return view('template.home', ['user' => $request->session()->get('data')[0], 'list' => $vet]);
     }
 
     public function login(Request $request) {
-
         $u = $this->user->search();
+
         if($u) {
-            $request->session()->put('data', [$u->name]);
+            $request->session()->put('data', [$u]);
+            return redirect('/');
+        }
+    }
+
+    public function loginMedic(Request $request) {
+        $u = $this->user->searchMedic();
+
+        if($u) {
+            $request->session()->put('data', [$u]);
             return redirect('/');
         }
     }
@@ -63,9 +82,33 @@ class Controller extends BaseController
             return redirect('patient/list');
         } else {
             $result = $this->patient->getPati($id);
-            $result2 = $this->functionary->search();
-            return view('template.binds', ['list' => $result, 'list2' => $result2, 'user' => $request->session()->get('data')[0]]);
+            $vet = $this->funct($this->functionary->search(), $this->fp->search());
+            return view('template.binds', ['list' => $result, 'list2' => $vet, 'user' => $request->session()->get('data')[0]]);
         }
+    }
+
+    public function funct($list1, $list2) {
+        $vet = [];
+
+        foreach($list1 as $item1) {
+            $add = null;
+            $cont = 0;
+            foreach($list2 as $item2) {
+
+                if($item1->id == $item2->functionary_id) {
+                    $cont++;
+                }
+                $add = $item1;
+            }
+            if (count($list2) === 0) {
+                array_push($vet, $item1);
+                echo 'oi';
+            } else if($cont < 2) {
+                array_push($vet, $add);
+            }
+        }
+
+        return $vet;
     }
 
 }

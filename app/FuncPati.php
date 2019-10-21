@@ -20,4 +20,13 @@ class FuncPati extends Model
             ['patient_id' => $pati_id, 'functionary_id' => $func_id]
         );
     }
+
+    public function search($id = null)
+    {
+        if($id != null) {
+            return DB::table('functionary_patient')->where('functionary_id', '=', $id)->get();
+        } else {
+            return DB::table('functionary_patient')->get();
+        }
+    }
 }

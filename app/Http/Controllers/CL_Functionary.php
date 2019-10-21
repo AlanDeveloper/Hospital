@@ -37,7 +37,11 @@ class CL_Functionary extends Controller {
     
     public function search(Request $request) {
         if ($request->isMethod('post')) {
-            $result = $this->func->search($request->name);
+            if(isset($request->name)) {
+                $result = $this->func->search($request->name);
+            } else {
+                $result = $this->func->getFunc($request->code);
+            }
             return view('functionary.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
         } else {
             return redirect('functionary/list');

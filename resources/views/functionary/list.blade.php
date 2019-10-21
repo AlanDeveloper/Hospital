@@ -4,16 +4,17 @@
 <form action="/functionary/search" class="form-inline" method="post">
     {{ csrf_field() }}
     <div class="form-group mb-2">
-        <input type="text" name="name" class="form-control">
+        <input type="text" name="name" placeholder="Digite o nome" class="form-control">
+        <input type="number" name="code" placeholder="Digite o código" class="form-control">
         <input type="submit" class="btn btn-primary mb-2" value="Procurar">
     </div>
 </form>
 <table class="table">
     <thead>
-        <th>#</th>
-        <th>Nome</th>
-        <th>Cargo</th>
-        <th>Especialidade</th>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Cargo</th>
+        <th scope="col">Especialidade</th>
     </thead>
     <tbody>
         @foreach ($list as $item)
@@ -46,6 +47,11 @@
             <td><a href="/functionary/delete/{{ $item->id }}">Deletar</a></td>
         </tr>
         @endforeach
+        @if (count($list) === 0)
+        <tr scope="row">
+            <td colspan="4" style="text-align:center;">Nenhum resultado encontrado</td>
+        </tr>
+        @endif
     </tbody>
 </table>
 @endsection

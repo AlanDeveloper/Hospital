@@ -32,6 +32,8 @@ class FunctionaryPatient extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('functionary');
+        Schema::dropIfExists('patient');
+        Schema::dropIfExists('functionary_patient');
     }
 }
