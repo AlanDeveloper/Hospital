@@ -24,29 +24,46 @@ class Controller extends BaseController
         $this->patient = new Patient();
         $this->functionary = new Functionary();
         $this->fp = new FuncPati();
+
+        $u = array();
+        $u = (object) $u;
+        $u->name = 'admin';
+        $u->password = 'admin';
+
+        if(!$this->user->login($u)) {
+            $u->admin = 1;
+            $this->user->register($u);
+        }
     }
 
     public function index(Request $request) {
-        $vet = null;
-        if(isset($request->session()->get('data')[0])) {
-            if($request->session()->get('data')[0]->admin == false) {
-                $vet = [];
-                $result = $this->fp->search($request->session()->get('data')[0]->id);
-                foreach($result as $patient) {
-                    array_push($vet, $this->patient->search($patient->id));
-                }
-            }
-        }
-        return view('template.home', ['user' => $request->session()->get('data')[0], 'list' => $vet]);
+        $user = $request->session()->get('data')[0];
+
+        return view('template.home', ['user' => $user]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->user->register($request);
+
     }
 
     public function login(Request $request) {
-        $u = $this->user->search();
+        if ($request->isMethod('post')) {
+            $u = $this->user->login($request);
 
-        if($u) {
-            $request->session()->put('data', [$u]);
-            return redirect('/');
-        }
+            if($u) {
+                $request->session()->put('data', [$u]);
+
+                return redirect('/');
+            } else {
+                $error = 'Dados incorretos';
+                
+                return view('template.login', ['error' => $error]);
+            }
+        } else {
+            return view('template.login');
+        }  
     }
 
     public function loginMedic(Request $request) {

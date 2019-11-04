@@ -19,6 +19,7 @@ class CreateFunctionary extends Migration
         Schema::create('functionary', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('password');
             $table->string('specialty');
             $table->string('office');
             $table->timestamps();

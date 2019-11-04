@@ -13,9 +13,21 @@ class User extends Model
     protected $fillable = [
         'admin',
         'name',
-        'email',
         'password'
     ];
+
+    public function register($res)
+    {
+        $admin = isset($res->admin) ? $res->admin : 0;
+
+        DB::table('user')->insert(
+            [
+                'admin' => $admin,
+                'name' => $res->name,
+                'password' => md5($res->password)
+            ]
+        );
+    }
 
     public function search()
     {
@@ -25,6 +37,13 @@ class User extends Model
     public function searchMedic()
     {
         return DB::table('user')->where([['name', 'alan'], ['password', 'alan']])->first();
+    }
+
+    public function login($res) {
+        return DB::table('user')->where([
+                ['name', '=',  $res->name], 
+                ['password', '=', md5($res->password)]
+        ])->first();
     }
 
 }

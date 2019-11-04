@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Functionary;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,7 @@ class CL_Functionary extends Controller {
 
     public function __construct() {
         $this->func = new Functionary();
+        $this->user = new User();
     }
     
     public function getFunc($id) {
@@ -22,8 +24,16 @@ class CL_Functionary extends Controller {
     public function register(Request $request) {
 
         if ($request->isMethod('post')) {
-            $this->func->register($request);
+            $id = $this->func->register($request);
+
+            $u = array();
+            $u = (object) $u;
+            $u->name = $request->name;
+            $u->password = $request->password;
+            $u->func_id = $id;
             
+            $this->user->register($u);
+
             return redirect('functionary/list');
         } else {
             return view('functionary.create', ['user' => $request->session()->get('data')[0]]);  

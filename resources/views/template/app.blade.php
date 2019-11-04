@@ -37,14 +37,13 @@
                     <li><a href="{{ url('/') }}">Home</a></li>
                     @if (isset($user->admin))
                         @if ($user->admin)
-                        <li><a href="{{ url('functionary/list') }}">Lista de Funcionários</a></li>
-                        <li><a href="{{ url('patient/list') }}">Lista de Pacientes</a></li>
+                            <li><a href="{{ url('functionary/list') }}">Lista de Funcionários</a></li>
+                            <li><a href="{{ url('patient/list') }}">Lista de Pacientes</a></li>
                         @endif
                         <li><a href="#"> Olá {{$user->name}}</a></li>
                         <li><a href="/exit">Sair</a></li>
                     @else
-                    <li><a href="{{ url('login') }}">Entrar como administrador</a></li>
-                    <li><a href="{{ url('loginMedic') }}">Entrar como médico</a></li>
+                    <li><button type="button" class="btn btn-primary" style="margin-top: 5px;"><a href="{{ url('login') }}">Entrar</a></button></li>
                     @endif
                 </ul>
             </div>

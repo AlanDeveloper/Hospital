@@ -8,6 +8,8 @@
     <h3>Preencha o formulário</h3>
     <label for="">Nome</label>
     <input class="form-control" type="text" name="name" value="{{ $item[0]->name }}" placeholder="Nome completo" required>
+    <label for="">Senha</label>
+    <input class="form-control" type="password" name="password" placeholder="Nova senha">
     <label for="">Cargo</label>
     <select class="form-control" name="office">
         @if ($item[0]->office == "as")

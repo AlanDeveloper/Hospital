@@ -16,7 +16,7 @@ class FuncPati extends Model
     
     public function register($pati_id, $func_id)
     {
-        return DB::table('functionary_patient')->insert(
+        DB::table('functionary_patient')->insert(
             ['patient_id' => $pati_id, 'functionary_id' => $func_id]
         );
     }

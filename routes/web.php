@@ -12,6 +12,7 @@
 */
 Route::get('/',  "Controller@index");
 Route::get('/login', "Controller@login");
+Route::post('/login', "Controller@login");
 Route::get('/loginMedic', "Controller@loginMedic");
 Route::get('/exit', "Controller@exit");
 Route::get('/exit', "Controller@exit");

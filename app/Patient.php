@@ -26,7 +26,7 @@ class Patient extends Model
 
     public function register($res)
     {
-        return $this->create($res->all());
+        $this->create($res->all());
     }
 
     public function search($cond = null)

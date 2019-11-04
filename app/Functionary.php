@@ -11,6 +11,7 @@ class Functionary extends Model {
     
     protected $fillable = [
         'name',
+        'password',
         'office',
         'specialty'
     ];
@@ -20,7 +21,14 @@ class Functionary extends Model {
     }
 
     public function register($res) {
-        return $this->create($res->all());
+        DB::table('functionary')->insert(
+            [
+                'name' => $res->name,
+                'password' => md5($res->password),
+                'specialty' => $res->specialty,
+                'office' => $res->office
+            ]
+        );
     }
 
     public function search($cond = null)
@@ -37,11 +45,23 @@ class Functionary extends Model {
     }
 
     public function change($res, $id) {
-        DB::table('functionary')->where('id', '=', $id)->update(
-            [
-                'name' => $res->name,
-                'specialty' => $res->specialty,
-                'office' => $res->office
-            ]);
+        if($res->password != '') {
+            DB::table('functionary')->where('id', '=', $id)->update(
+                [
+                    'name' => $res->name,
+                    'password' => md5($res->password),
+                    'specialty' => $res->specialty,
+                    'office' => $res->office
+                ]
+            );
+        } else {
+            DB::table('functionary')->where('id', '=', $id)->update(
+                [
+                    'name' => $res->name,
+                    'specialty' => $res->specialty,
+                    'office' => $res->office
+                ]
+            );
+        }
     }
 }
