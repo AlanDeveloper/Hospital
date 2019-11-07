@@ -2,7 +2,7 @@
 
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<form action="{{ url('functionary/register') }}" method="post">
+<form action="{{ url('/register_user_functionary') }}" method="post">
     {{ csrf_field() }}
     <h3>Preencha o formulário</h3>
     <label for="">Nome</label>

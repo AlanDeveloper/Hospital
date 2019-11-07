@@ -21,7 +21,7 @@ class Functionary extends Model {
     }
 
     public function register($res) {
-        DB::table('functionary')->insert(
+        return DB::table('functionary')->insertGetId(
             [
                 'name' => $res->name,
                 'password' => md5($res->password),

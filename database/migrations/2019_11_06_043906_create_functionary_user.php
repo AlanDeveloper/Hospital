@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FunctionaryPatient extends Migration
+class CreateFunctionaryUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class FunctionaryPatient extends Migration
      */
     public function up()
     {
-        Schema::create('functionary_patient', function (Blueprint $table) {
-            $table->integer('patient_id')->unsigned();
+        Schema::create('functionary_user', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
             $table->integer('functionary_id')->unsigned();
-            $table->foreign('patient_id')->references('id')->on('patient')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->foreign('functionary_id')->references('id')->on('functionary')->onDelete('cascade');
         });
     }
@@ -28,8 +28,6 @@ class FunctionaryPatient extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('functionary');
-        Schema::dropIfExists('patient');
-        Schema::dropIfExists('functionary_patient');
+        Schema::dropIfExists('functionary_user');
     }
 }

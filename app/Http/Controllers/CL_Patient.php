@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Patient;
-// use DateTime
 use Illuminate\Http\Request;
 
 class CL_Patient extends Controller {

@@ -21,10 +21,16 @@ class FuncPati extends Model
         );
     }
 
-    public function search($id = null)
-    {
-        if($id != null) {
-            return DB::table('functionary_patient')->where('functionary_id', '=', $id)->get();
+    public function search($pati_id = null, $func_id = null) {
+        if($func_id != null && $pati_id != null) {
+            return DB::table('functionary_patient')->where([
+                ['functionary_id', '=', $func_id],
+                ['patient_id', '=', $pati_id]]
+            )->first();
+        } else if($pati_id != null) {
+             return DB::table('functionary_patient')->where('patient_id', '=', $pati_id)->get();
+        } else if($func_id != null) {
+             return DB::table('functionary_patient')->where('functionary_id', '=', $func_id)->get();
         } else {
             return DB::table('functionary_patient')->get();
         }

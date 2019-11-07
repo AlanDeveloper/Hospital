@@ -42,6 +42,7 @@
             @if ($user)
             <td><a href="/binds/{{ $item->id }}">Vincular</a></td>
             @endif
+            <td><a href="/bond/{{ $item->id }}">Mostrar vínculos</a></td>
             <td><a href="/patient/change/{{ $item->id }}">Alterar</a></td>
             <td><a href="/patient/delete/{{ $item->id }}">Deletar</a></td>
         </tr>

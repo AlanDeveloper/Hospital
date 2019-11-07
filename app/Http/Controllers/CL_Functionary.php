@@ -2,56 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Functionary;
 use Illuminate\Http\Request;
 
 class CL_Functionary extends Controller {
 
-    private $func;
+    private $functionary;
 
     public function __construct() {
-        $this->func = new Functionary();
-        $this->user = new User();
+        $this->functionary = new Functionary();
     }
     
     public function getFunc($id) {
-        $result = $this->func->getFunc($id);
+        $result = $this->functionary->getFunc($id);
 
         return $result;
     }
 
-    public function register(Request $request) {
-
-        if ($request->isMethod('post')) {
-            $id = $this->func->register($request);
-
-            $u = array();
-            $u = (object) $u;
-            $u->name = $request->name;
-            $u->password = $request->password;
-            $u->func_id = $id;
-            
-            $this->user->register($u);
-
-            return redirect('functionary/list');
-        } else {
-            return view('functionary.create', ['user' => $request->session()->get('data')[0]]);  
-        }
-    }
-
     public function list(Request $request) {
-        $result = $this->func->search();
+        $result = $this->functionary->search();
+
         return view('functionary.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
     }
     
     public function search(Request $request) {
         if ($request->isMethod('post')) {
-            if(isset($request->name)) {
-                $result = $this->func->search($request->name);
-            } else {
-                $result = $this->func->getFunc($request->code);
-            }
+            $result = isset($request->name) ? $this->functionary->search($request->name) : $this->functionary->getFunc($request->code);
+            
             return view('functionary.list', ['list' => $result, 'user' => $request->session()->get('data')[0]]);
         } else {
             return redirect('functionary/list');
@@ -59,14 +36,14 @@ class CL_Functionary extends Controller {
     }
 
     public function del($id) {
-        $this->func->del($id);
+        $this->functionary->del($id);
 
         return redirect('functionary/list');
     }
 
     public function change(Request $request, $id) {
         if ($request->isMethod('post')) {
-            $this->func->change($request, $id);
+            $this->functionary->change($request, $id);
             
             return redirect('functionary/list');
         } else {

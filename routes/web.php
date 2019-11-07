@@ -18,6 +18,10 @@ Route::get('/exit', "Controller@exit");
 Route::get('/exit', "Controller@exit");
 Route::get('/binds/{id}', "Controller@binds");
 Route::post('/binds/{id}', "Controller@binds");
+Route::get('/register_user_functionary', "Controller@register_user_functionary");
+Route::post('/register_user_functionary', "Controller@register_user_functionary");
+Route::get('/bond/{id}', "Controller@bond");
+Route::post('/bond/{id}', "Controller@bond");
 
 Route::group(["prefix" => "functionary"], function () {
     Route::get('/', function () {
@@ -35,6 +39,8 @@ Route::group(["prefix" => "functionary"], function () {
 
     Route::get("/change/{id}", "CL_Functionary@change");
     Route::post("/change/{id}", "CL_Functionary@change");
+
+    Route::get("/bond/{id}", "CL_Functionary@bond");
 });
 
 

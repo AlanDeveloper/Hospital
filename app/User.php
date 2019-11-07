@@ -16,11 +16,21 @@ class User extends Model
         'password'
     ];
 
-    public function register($res)
+    public function registerAdmin()
     {
+        DB::table('user')->insert(
+            [
+                'admin' => 1,
+                'name' => 'admin',
+                'password' => md5('admin')
+            ]
+        );
+    }
+
+    public function register($res) {
         $admin = isset($res->admin) ? $res->admin : 0;
 
-        DB::table('user')->insert(
+        return DB::table('user')->insertGetId(
             [
                 'admin' => $admin,
                 'name' => $res->name,
@@ -29,14 +39,8 @@ class User extends Model
         );
     }
 
-    public function search()
-    {
-        return DB::table('user')->where([['name', 'admin'], ['password', 'admin']])->first();
-    }
-
-    public function searchMedic()
-    {
-        return DB::table('user')->where([['name', 'alan'], ['password', 'alan']])->first();
+    public function searchAdmin() {
+        return DB::table('user')->where([['name', 'admin'], ['password', md5('admin')]])->first();
     }
 
     public function login($res) {
