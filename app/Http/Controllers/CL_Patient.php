@@ -25,7 +25,15 @@ class CL_Patient extends Controller {
         if ($request->isMethod('post')) {
             $this->patient->register($request);
             
-            return redirect('patient/list');
+            if(isset($request->session()->get('data')[0])) {
+                if($request->session()->get('data')[0]->admin) {
+                    return redirect('patient/list');
+                } else {
+                    return redirect('/');
+                }
+            } else {
+                return redirect('/');
+            }
         } else {
             return view('patient.create', ['user' => $request->session()->get('data')[0]] );  
         }
@@ -49,7 +57,7 @@ class CL_Patient extends Controller {
         }
     }
 
-    public function del($id)
+    public function delete_patient($id)
     {
         $this->patient->del($id);
 
@@ -69,4 +77,10 @@ class CL_Patient extends Controller {
         }
     }
 
+    public function release($id) {
+        $date = new \DateTime();
+        $this->patient->release($date->format('d-m-Y H:i:s'), $id);
+
+        return redirect('/');
+    }
 }

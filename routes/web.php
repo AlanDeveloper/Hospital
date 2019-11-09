@@ -23,6 +23,8 @@ Route::post('/register_user_functionary', "Controller@register_user_functionary"
 Route::get('/bond/{id}', "Controller@bond");
 Route::post('/bond/{id}', "Controller@bond");
 
+Route::get('/del/{id}', "Controller@del");
+
 Route::group(["prefix" => "functionary"], function () {
     Route::get('/', function () {
         return redirect('functionary/list');
@@ -35,7 +37,7 @@ Route::group(["prefix" => "functionary"], function () {
 
     Route::post("/search", "CL_Functionary@search");
 
-    Route::get("/delete/{id}", "CL_Functionary@del");
+    Route::get("/delete/{id}", "CL_Functionary@delete_functionary");
 
     Route::get("/change/{id}", "CL_Functionary@change");
     Route::post("/change/{id}", "CL_Functionary@change");
@@ -57,8 +59,10 @@ Route::group(["prefix" => "patient"], function () {
     Route::get("/search", "CL_Patient@search");
     Route::post("/search", "CL_Patient@search");
 
-    Route::get("/delete/{id}", "CL_Patient@del");
+    Route::get("/delete/{id}", "CL_Patient@delete_patient");
 
     Route::get("/change/{id}", "CL_Patient@change");
     Route::post("/change/{id}", "CL_Patient@change");
+
+    Route::get("/release/{id}", "CL_Patient@release");
 });

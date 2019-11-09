@@ -35,7 +35,7 @@ class CL_Functionary extends Controller {
         }
     }
 
-    public function del($id) {
+    public function delete_functionary($id) {
         $this->functionary->del($id);
 
         return redirect('functionary/list');

@@ -35,4 +35,13 @@ class FuncPati extends Model
             return DB::table('functionary_patient')->get();
         }
     }
+
+    public function del($func_id, $pati_id) {
+        DB::table('functionary_patient')->where(
+            [
+                ['functionary_id', '=', $func_id],
+                ['patient_id', '=', $pati_id]
+            ]
+        )->delete();
+    }
 }

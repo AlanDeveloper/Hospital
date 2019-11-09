@@ -23,6 +23,7 @@ class CreatePatient extends Migration
             $table->integer('telephone');
             $table->date('date');
             $table->dateTime('entry');
+            $table->dateTime('exit')->nullable()->default(NULL);
             $table->string('observation');
             $table->timestamps();
         });

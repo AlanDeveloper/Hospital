@@ -137,10 +137,24 @@ class Controller extends BaseController
 
             $this->fu->register($user_id, $func_id);
 
-            return redirect('functionary/list');
+            if(isset($request->session()->get('data')[0])) {
+                if($request->session()->get('data')[0]->admin) {
+                    return redirect('functionary/list');
+                } else {
+                    return redirect('/');
+                }
+            } else {
+                return redirect('/');
+            }
         } else {
             return view('functionary.create', ['user' => $request->session()->get('data')[0]]);  
         }
+    }
+
+    public function del(Request $request, $id) {
+        $this->fp->del($id, $request->session()->get('data')[0]->id);
+        
+        return redirect('/');
     }
 
 }

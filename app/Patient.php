@@ -55,4 +55,10 @@ class Patient extends Model
             ]
         );
     }
+
+    public function release($date, $id) {
+        DB::table('patient')->where('id', '=', $id)->update(
+            ['exit' => $date]
+        );
+    }
 }
